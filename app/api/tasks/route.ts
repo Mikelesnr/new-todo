@@ -49,7 +49,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    console.log("ERROR CREATING TASK: ", error);
+    // console.log("ERROR CREATING TASK: ", error);
     return NextResponse.json({ error: "Error creating task", status: 500 });
   }
 }
@@ -71,7 +71,7 @@ export async function GET(req: Request) {
 
     return NextResponse.json(tasks);
   } catch (error) {
-    console.log("ERROR GETTING TASKS: ", error);
+    // console.log("ERROR GETTING TASKS: ", error);
     return NextResponse.json({ error: "Error updating task", status: 500 });
   }
 }
@@ -97,7 +97,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    console.log("ERROR UPDATING TASK: ", error);
+    // console.log("ERROR UPDATING TASK: ", error);
     return NextResponse.json({ error: "Error deleting task", status: 500 });
   }
 }
