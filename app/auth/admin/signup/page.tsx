@@ -1,4 +1,4 @@
-import SignUpForm from "@/app/Components/SignUpForm";
+import SignUpAdminForm from "@/app/Components/SignUpAdminForm";
 import { Image, Link } from "@nextui-org/react";
 import { FormProvider } from "@/app/providers/FormProvider";
 
@@ -10,7 +10,7 @@ const SignupPage = () => {
           <p className="text-center p-2">Already Signed up?</p>
           <Link href={"/auth/signin"}>Sign In</Link>
         </div>
-        <SignUpForm />
+        <SignUpAdminForm />
         {/* <Image src="/login.png" alt="Login Form" width={500} height={500} /> */}
       </div>
     </FormProvider>

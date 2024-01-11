@@ -5,8 +5,8 @@ import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcrypt";
 import NextAuth from "next-auth/next";
 
-import { use } from "react";
 import { User } from "@prisma/client";
+import { options } from "./options";
 
 export const authOptions: AuthOptions = {
   pages: {

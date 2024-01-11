@@ -1,10 +1,13 @@
 import prisma from "@/app/utils/connect";
 import { NextResponse } from "next/server";
+import getUser from "@/app/utils/getUser";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
 
 export async function POST(req: Request) {
   try {
-    // const { userId } = auth();
-    const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized", status: 401 });
@@ -49,15 +52,15 @@ export async function POST(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    // console.log("ERROR CREATING TASK: ", error);
+    console.log("ERROR CREATING TASK: ", error);
     return NextResponse.json({ error: "Error creating task", status: 500 });
   }
 }
 
 export async function GET(req: Request) {
   try {
-    // const { userId } = auth();
-    const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized", status: 401 });
@@ -71,15 +74,15 @@ export async function GET(req: Request) {
 
     return NextResponse.json(tasks);
   } catch (error) {
-    // console.log("ERROR GETTING TASKS: ", error);
+    console.log("ERROR GETTING TASKS: ", error);
     return NextResponse.json({ error: "Error updating task", status: 500 });
   }
 }
 
 export async function PUT(req: Request) {
   try {
-    // const { userId } = auth();
-    const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
     const { isCompleted, id } = await req.json();
 
     if (!userId) {
@@ -97,7 +100,7 @@ export async function PUT(req: Request) {
 
     return NextResponse.json(task);
   } catch (error) {
-    // console.log("ERROR UPDATING TASK: ", error);
+    console.log("ERROR UPDATING TASK: ", error);
     return NextResponse.json({ error: "Error deleting task", status: 500 });
   }
 }

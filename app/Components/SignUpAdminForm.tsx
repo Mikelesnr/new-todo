@@ -47,7 +47,7 @@ const FormSchema = z
         message: "Please accept all terms",
       }),
     }),
-    admin: z.literal(false, {
+    admin: z.literal(true, {
       errorMap: () => ({
         message: "Please accept all terms",
       }),
@@ -60,7 +60,7 @@ const FormSchema = z
 
 type InputType = z.infer<typeof FormSchema>;
 
-const SignUpForm = () => {
+const SignUpAdminForm = () => {
   const {
     register,
     handleSubmit,
@@ -165,10 +165,8 @@ const SignUpForm = () => {
             onChange={field.onChange}
             onBlur={field.onBlur}
             className="col-span-2 hide"
-            defaultChecked={false}
-          >
-            I Accept The <Link href="/terms">Terms</Link>
-          </Checkbox>
+            defaultChecked={true}
+          />
         )}
       />
       <Controller
@@ -196,4 +194,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUpAdminForm;

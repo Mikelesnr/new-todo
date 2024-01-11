@@ -3,6 +3,8 @@ import React from "react";
 import styled from "styled-components";
 import { useGlobalState } from "@/app/context/globalProvider";
 import Image from "next/image";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import menu from "@/app/utils/menu";
 import Link from "next/link";
@@ -12,16 +14,15 @@ import { arrowLeft, bars, logout } from "@/app/utils/Icons";
 
 function Sidebar() {
   const { theme, collapsed, collapseMenu } = useGlobalState();
-  // const { signOut } = useClerk();
-
-  // const { user } = useUser();
+  const { data: session, status } = useSession();
+  const activeUser = session?.user;
   const user = {
-    id: "user_2aXCP17scwi6xa9kAGE7Ge57Fky",
-    firstName: "Michael",
-    lastName: "Mwanza",
-    isLoaded: true,
-    email: "talk2micky@hotmail.com",
-    imageUrl: "/public/avatar1.png",
+    id: activeUser?.id,
+    firstName: activeUser?.firstName,
+    lastName: activeUser?.lastName,
+    isLoaded: status === "authenticated" ? true : false,
+    email: activeUser?.email,
+    imageUrl: "/avatar1.png",
   };
 
   const { firstName, lastName, imageUrl } = user || {
@@ -38,7 +39,11 @@ function Sidebar() {
   };
 
   return (
-    <SidebarStyled theme={theme} collapsed={collapsed}>
+    <SidebarStyled
+      theme={theme}
+      collapsed={collapsed}
+      className={status === "authenticated" ? "" : "hide"}
+    >
       <button className="toggle-nav" onClick={collapseMenu}>
         {collapsed ? bars : arrowLeft}
       </button>
@@ -80,9 +85,7 @@ function Sidebar() {
           fw={"500"}
           fs={"1.2rem"}
           icon={logout}
-          click={() => {
-            // signOut(() => router.push("/signin"));
-          }}
+          click={() => signOut({ callbackUrl: "/auth/signin" })}
         />
       </div>
     </SidebarStyled>

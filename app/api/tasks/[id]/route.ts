@@ -1,5 +1,6 @@
 import prisma from "@/app/utils/connect";
-// import { auth } from "@clerk/nextjs";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -7,8 +8,9 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    // const { userId } = auth();
-    const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
+    const session = await getServerSession(authOptions);
+    const userId = session?.user.id;
+    // const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
     const { id } = params;
 
     if (!userId) {
@@ -20,7 +22,7 @@ export async function DELETE(
         id,
       },
     });
-
+    // import { auth } from "@clerk/nextjs";
     return NextResponse.json(task);
   } catch (error) {
     console.log("ERROR DELETING TASK: ", error);

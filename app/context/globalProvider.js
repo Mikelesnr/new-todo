@@ -3,18 +3,20 @@ import React, { createContext, useState, useContext } from "react";
 import themes from "./themes";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  // const { user } = useUser();
-  const user = {
-    id: "user_2aXCP17scwi6xa9kAGE7Ge57Fky",
-    name: "Michael",
-    isLoaded: true,
-    email: "talk2micky@hotmail.com",
-  };
+  const { data: session } = useSession();
+  const user = session?.user;
+  // console.log(user);
+  // const user = {
+  //   id: "clr5z8ui90000u1kal57udvmu",
+  //   name: "Michael",
+  //   email: "talk2micky@hotmail.com",
+  // };
 
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,6 +43,7 @@ export const GlobalProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
+      console.log(res.data);
 
       const sorted = res.data.sort((a, b) => {
         return (
