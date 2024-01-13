@@ -9,13 +9,14 @@ export const GlobalContext = createContext();
 export const GlobalUpdateContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const user = session?.user;
-  // console.log(user);
   // const user = {
-  //   id: "clr5z8ui90000u1kal57udvmu",
-  //   name: "Michael",
-  //   email: "talk2micky@hotmail.com",
+  //   firstname: "Michael",
+  //   lastname: "Mwanza",
+  //   id: "clrbi049c00012rjnfoqr2xid",
+  //   email: "mwanza.n.m@gmail.com",
+  //   isLoaded: true,
   // };
 
   const [selectedTheme, setSelectedTheme] = useState(0);
@@ -26,7 +27,6 @@ export const GlobalProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
 
   const theme = themes[selectedTheme];
-
   const openModal = () => {
     setModal(true);
   };
@@ -43,7 +43,6 @@ export const GlobalProvider = ({ children }) => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
-      console.log(res.data);
 
       const sorted = res.data.sort((a, b) => {
         return (
@@ -55,7 +54,7 @@ export const GlobalProvider = ({ children }) => {
 
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -66,7 +65,7 @@ export const GlobalProvider = ({ children }) => {
 
       allTasks();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Something went wrong");
     }
   };
@@ -79,7 +78,7 @@ export const GlobalProvider = ({ children }) => {
 
       allTasks();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast.error("Something went wrong");
     }
   };

@@ -1,8 +1,7 @@
 import prisma from "@/app/utils/connect";
-import { NextResponse } from "next/server";
-import getUser from "@/app/utils/getUser";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -75,7 +74,7 @@ export async function GET(req: Request) {
     return NextResponse.json(tasks);
   } catch (error) {
     console.log("ERROR GETTING TASKS: ", error);
-    return NextResponse.json({ error: "Error updating task", status: 500 });
+    return NextResponse.json({ error: "Error getting tasks", status: 500 });
   }
 }
 

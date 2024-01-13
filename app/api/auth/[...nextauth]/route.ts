@@ -1,12 +1,12 @@
 import prisma from "@/lib/prisma";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
+// import GoogleProvider from "next-auth/providers/google";
 import * as bcrypt from "bcrypt";
 import NextAuth from "next-auth/next";
 
+import { use } from "react";
 import { User } from "@prisma/client";
-import { options } from "./options";
 
 export const authOptions: AuthOptions = {
   pages: {
@@ -19,17 +19,17 @@ export const authOptions: AuthOptions = {
     secret: process.env.NEXTAUTH_SECRET,
   },
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      idToken: true,
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+    //   idToken: true,
 
-      authorization: {
-        params: {
-          scope: "openid profile email",
-        },
-      },
-    }),
+    //   authorization: {
+    //     params: {
+    //       scope: "openid profile email",
+    //     },
+    //   },
+    // }),
     CredentialsProvider({
       name: "Credentials",
 

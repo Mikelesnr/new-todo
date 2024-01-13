@@ -1,4 +1,4 @@
-import ResetPasswordForm from "@/app/Components/ResetPasswordForm";
+import ResetPasswordForm from "@/app/components/ResetPasswordForm";
 import { verifyJwt } from "@/lib/jwt";
 
 interface Props {

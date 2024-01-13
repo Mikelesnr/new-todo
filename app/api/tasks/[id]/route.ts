@@ -8,10 +8,10 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const session = await getServerSession(authOptions);
-    const userId = session?.user.id;
-    // const userId = "user_2aXCP17scwi6xa9kAGE7Ge57Fky";
+    const session = await getServerSession();
+    // const userId = session?.user.id;
     const { id } = params;
+    const userId = "clrbi049c00012rjnfoqr2xid";
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -22,7 +22,7 @@ export async function DELETE(
         id,
       },
     });
-    // import { auth } from "@clerk/nextjs";
+
     return NextResponse.json(task);
   } catch (error) {
     console.log("ERROR DELETING TASK: ", error);
