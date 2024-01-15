@@ -7,6 +7,7 @@ export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
+    const isAdmin = session?.user.isAdmin;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized", status: 401 });
@@ -36,20 +37,24 @@ export async function POST(req: Request) {
       });
     }
 
-    const task = await prisma.task.create({
-      data: {
-        title,
-        assigned,
-        description,
-        date,
-        isCompleted: completed,
-        isImportant: important,
-        attachment: attachment,
-        userId,
-      },
-    });
+    if (isAdmin) {
+      const task = await prisma.task.create({
+        data: {
+          title,
+          assigned,
+          description,
+          date,
+          isCompleted: completed,
+          isImportant: important,
+          attachment: attachment,
+          userId,
+        },
+      });
 
-    return NextResponse.json(task);
+      return NextResponse.json(task);
+    }
+
+    return NextResponse.json("only admin can create task");
   } catch (error) {
     console.log("ERROR CREATING TASK: ", error);
     return NextResponse.json({ error: "Error creating task", status: 500 });

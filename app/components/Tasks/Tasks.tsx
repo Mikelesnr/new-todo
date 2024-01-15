@@ -6,6 +6,7 @@ import CreateContent from "../Modals/CreateContent";
 import TaskItem from "../TaskItem/TaskItem";
 import { add, plus } from "@/app/utils/Icons";
 import Modal from "../Modals/Modal";
+import { useSession } from "next-auth/react";
 
 interface Props {
   title: string;
@@ -14,13 +15,15 @@ interface Props {
 
 function Tasks({ title, tasks }: Props) {
   const { theme, isLoading, openModal, modal } = useGlobalState();
+  const { data: session } = useSession();
+  const isAdmin = session?.user.isAdmin;
 
   return (
     <TaskStyled theme={theme}>
       {modal && <Modal content={<CreateContent />} />}
       <h1>{title}</h1>
 
-      <button className="btn-rounded" onClick={openModal}>
+      <button className={isAdmin ? "btn-rounded" : "hide"} onClick={openModal}>
         {plus}
       </button>
 
@@ -35,7 +38,10 @@ function Tasks({ title, tasks }: Props) {
             id={task.id}
           />
         ))}
-        <button className="create-task" onClick={openModal}>
+        <button
+          className={isAdmin ? "create-task" : "hide"}
+          onClick={openModal}
+        >
           {add}
           Add New Task
         </button>
