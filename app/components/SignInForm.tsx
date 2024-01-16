@@ -96,7 +96,7 @@ const SignInForm = (props: Props) => {
           </Button>
         </div>
       </div>
-      <NextAuthProviders />
+      {/* <NextAuthProviders /> */}
     </form>
   );
 };

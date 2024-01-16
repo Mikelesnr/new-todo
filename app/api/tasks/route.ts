@@ -2,11 +2,14 @@ import prisma from "@/app/utils/connect";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
+import { sendMail } from "@/lib/mail";
+import { writeFile } from "fs/promises";
+import splitString from "@/app/utils/splitString";
 
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    const userId = session?.user.id;
+    let userId = session?.user.id;
     const isAdmin = session?.user.isAdmin;
 
     if (!userId) {
@@ -17,11 +20,27 @@ export async function POST(req: Request) {
       title,
       assigned,
       description,
+      file,
       date,
       completed,
       important,
       attachment,
     } = await req.json();
+
+    const nameArr = splitString(assigned, " ");
+    const fName = nameArr[0];
+    const lName = nameArr[nameArr.length - 1];
+    const records =
+      await prisma.$queryRaw`SELECT * FROM User WHERE firstName = ${fName} AND lastName = ${lName} `;
+    const assignedId = records[0].id;
+    const email = records[0].email;
+
+    await sendMail({
+      to: email,
+      subject: title,
+      body: description,
+      attachments: [],
+    });
 
     if (!title || !description || !date) {
       return NextResponse.json({
@@ -36,6 +55,7 @@ export async function POST(req: Request) {
         status: 400,
       });
     }
+    userId = assignedId;
 
     if (isAdmin) {
       const task = await prisma.task.create({

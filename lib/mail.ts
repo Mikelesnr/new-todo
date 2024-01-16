@@ -7,10 +7,12 @@ export async function sendMail({
   to,
   subject,
   body,
+  attachments,
 }: {
   to: string;
   subject: string;
   body: string;
+  attachments: [];
 }) {
   const { SMPT_EMAIL, SMTP_GMAIL_PASS, SMTP_USER, SMTP_PASS } = process.env;
   //
@@ -34,6 +36,7 @@ export async function sendMail({
       to,
       subject,
       html: body,
+      attachments: attachments,
     });
     console.log({ sendResult });
     return sendResult;

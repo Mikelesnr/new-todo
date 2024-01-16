@@ -26,7 +26,12 @@ export async function registerUser(
   });
   const activationUrl = `${process.env.NEXTAUTH_URL}/auth/activation/${jwtUserId}`;
   const body = compileActivationTemplate(user.firstName, activationUrl);
-  await sendMail({ to: user.email, subject: "Activate Your Account", body });
+  await sendMail({
+    to: user.email,
+    subject: "Activate Your Account",
+    body,
+    attachments: [],
+  });
   return result;
 }
 

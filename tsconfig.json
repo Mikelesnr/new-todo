@@ -28,7 +28,9 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/auth/[...nextauth].js",
-    "app/utils/getUser.js"
+    "app/utils/getUser.js",
+    "app/components/Autocomplete.tsx",
+    "app/components/Modals/CreateContent.js"
   ],
   "exclude": ["node_modules"]
 }
