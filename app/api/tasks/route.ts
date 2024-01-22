@@ -85,18 +85,27 @@ export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
+    const isAdmin = session?.user.isAdmin;
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized", status: 401 });
     }
 
-    const tasks = await prisma.task.findMany({
-      where: {
-        userId,
-      },
-    });
+    if (isAdmin) {
+      const tasks = await prisma.task.findMany();
 
-    return NextResponse.json(tasks);
+      return NextResponse.json(tasks);
+    }
+
+    if (!isAdmin) {
+      const tasks = await prisma.task.findMany({
+        where: {
+          userId,
+        },
+      });
+
+      return NextResponse.json(tasks);
+    }
   } catch (error) {
     console.log("ERROR GETTING TASKS: ", error);
     return NextResponse.json({ error: "Error getting tasks", status: 500 });

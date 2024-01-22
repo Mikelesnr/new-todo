@@ -30,7 +30,8 @@
     "app/api/auth/[...nextauth].js",
     "app/utils/getUser.js",
     "app/components/Autocomplete.tsx",
-    "app/components/Modals/CreateContent.js"
+    "app/components/Modals/CreateContent.js",
+    "app/components/Autocomplete.js"
   ],
   "exclude": ["node_modules"]
 }

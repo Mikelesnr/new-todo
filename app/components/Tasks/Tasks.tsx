@@ -21,6 +21,7 @@ function Tasks({ title, tasks }: Props) {
   return (
     <TaskStyled theme={theme}>
       {modal && <Modal content={<CreateContent />} />}
+
       <h1>{title}</h1>
 
       <button className={isAdmin ? "btn-rounded" : "hide"} onClick={openModal}>
@@ -32,6 +33,7 @@ function Tasks({ title, tasks }: Props) {
           <TaskItem
             key={task.id}
             title={task.title}
+            assigned={task.assigned}
             description={task.description}
             date={task.date}
             isCompleted={task.isCompleted}

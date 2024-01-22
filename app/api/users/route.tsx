@@ -8,9 +8,9 @@ export async function GET(req: Request) {
     const session = await getServerSession(authOptions);
     const userId = session?.user.id;
 
-    // if (!userId) {
-    //   return NextResponse.json({ error: "Unauthorized", status: 401 });
-    // }
+    if (!userId) {
+      return NextResponse.json({ error: "Unauthorized", status: 401 });
+    }
 
     const users = await prisma.user.findMany();
 

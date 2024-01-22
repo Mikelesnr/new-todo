@@ -33,5 +33,12 @@ export default function Home() {
   //   },
   // ];
 
-  return <Tasks title="All Tasks" tasks={tasks} />;
+  return (
+    <div className="p-8">
+      <div className="bg-white flex items-center rounded-full shadow-xl">
+        <div className="p-4"></div>
+      </div>
+      <Tasks title="All Tasks" tasks={tasks} />;
+    </div>
+  );
 }

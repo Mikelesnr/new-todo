@@ -51,21 +51,20 @@ const SignInForm = (props: Props) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-2 border rounded-md shadow overflow-hidden w-full"
-    >
-      <div className="bg-gradient-to-b from-white to-slate-200 dark:from-slate-700 dark:to-slate-900 p-2 text-center">
-        Sign In Form
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-sm mx-auto">
+      <div className="mb-3 text-white bg-gradient-to-b from-white to-slate-200 dark:from-slate-700 dark:to-slate-900 p-2 text-center">
+        Sign In
       </div>
       <div className="p-2 flex flex-col gap-2">
         <Input
-          label="Email"
+          placeholder="Email"
           {...register("email")}
           errorMessage={errors.email?.message}
+          className="col-span-2 mb-3"
         />
         <Input
-          label="Password"
+          placeholder="Password"
+          className="col-span-2 mb-3"
           {...register("password")}
           type={visiblePass ? "text" : "password"}
           errorMessage={errors.password?.message}
@@ -82,7 +81,7 @@ const SignInForm = (props: Props) => {
             </button>
           }
         />
-        <div className="flex items-center justify-center gap-2">
+        <div className="mb-3 flex items-center justify-center gap-2">
           <Button
             color="primary"
             type="submit"
@@ -97,6 +96,9 @@ const SignInForm = (props: Props) => {
         </div>
       </div>
       {/* <NextAuthProviders /> */}
+      <div className="flex items-center justify-center gap-2">
+        <Link href={"/auth/forgotPassword"}>Forgot Your Password?</Link>
+      </div>
     </form>
   );
 };

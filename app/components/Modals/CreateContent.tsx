@@ -1,11 +1,12 @@
 "use client";
 import { useGlobalState } from "@/app/context/globalProvider";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 import Button from "../Button/Button";
 import { add, plus } from "@/app/utils/Icons";
+import Autocomplete from "../Autocomplete";
 
 function CreateContent() {
   const [title, setTitle] = useState("");
@@ -15,6 +16,21 @@ function CreateContent() {
   const [completed, setCompleted] = useState(false);
   const [important, setImportant] = useState(false);
   const [attachment, setAttachment] = useState(false);
+  const [inspectors, setInspectors] = useState([]);
+
+  const getInspectors = async () => {
+    const results = await fetch("/api/users");
+    const data = await results.json();
+    const users = [];
+    data.map((user) => {
+      users.push(`${user.firstName} ${user.lastName}`);
+    });
+    setInspectors(users);
+  };
+
+  useEffect(() => {
+    getInspectors();
+  }, []);
 
   const { theme, allTasks, closeModal } = useGlobalState();
 
@@ -44,6 +60,10 @@ function CreateContent() {
       default:
         break;
     }
+    console.log(assigned);
+  };
+  const handleValueChange = (value) => {
+    setAssigned(value); // Set the assigned state here
   };
 
   const handleSubmit = async (e: any) => {
@@ -81,6 +101,9 @@ function CreateContent() {
     <CreateContentStyled onSubmit={handleSubmit} theme={theme}>
       <h1>Create a Task</h1>
       <div className="input-control">
+        <Autocomplete suggestions={inspectors} onChange={handleValueChange} />
+      </div>
+      <div className="input-control">
         <label htmlFor="title">Title</label>
         <input
           type="text"
@@ -93,6 +116,7 @@ function CreateContent() {
       </div>
       <div className="input-control">
         <label htmlFor="title">Assigned to</label>
+
         <input
           type="text"
           id="assigned"
@@ -143,7 +167,7 @@ function CreateContent() {
           id="important"
         />
       </div>
-      <div className="input-control toggler">
+      <div className="input-control toggler hide">
         <label htmlFor="attachment">Add Attachment</label>
         <input
           value={attachment.toString()}

@@ -1,5 +1,6 @@
 import ResetPasswordForm from "@/app/components/ResetPasswordForm";
 import { verifyJwt } from "@/lib/jwt";
+import Appbar from "@/app/components/Appbar";
 
 interface Props {
   params: {
@@ -32,8 +33,11 @@ const ResetPasswordPage = ({ params }: Props) => {
     );
   }
   return (
-    <div className="flex justify-center">
-      <ResetPasswordForm jwtUserId={params.jwt} />
+    <div>
+      <Appbar />
+      <div className="flex justify-center">
+        <ResetPasswordForm jwtUserId={params.jwt} />
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
+import Appbar from "@/app/components/Appbar";
 
 const FormSchema = z.object({
   email: z.string().email("Please enter a valid email!"),
@@ -35,34 +36,39 @@ const ForgotPasswordPage = () => {
     }
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 items-center">
-      <form
-        className="flex flex-col gap-2 p-2 border m-2 rounded-md shadow"
-        onSubmit={handleSubmit(submitRequest)}
-      >
-        <div className="text-center p-2">Enter Your Email</div>
+    <div>
+      <Appbar />
+      <form className="max-w-sm mx-auto" onSubmit={handleSubmit(submitRequest)}>
+        <div className="mb-3 text-white bg-gradient-to-b from-white to-slate-200 dark:from-slate-700 dark:to-slate-900 p-2 text-center">
+          Enter Your Email
+        </div>
         <Input
-          label="Email"
+          placeholder="Email"
+          className="col-2 mb-3"
           {...register("email")}
-          startContent={<EnvelopeIcon className="w-4" />}
+          // startContent={<EnvelopeIcon className="w-4" />}
           errorMessage={errors.email?.message}
         />
-        <Button
-          isLoading={isSubmitting}
-          type="submit"
-          disabled={isSubmitting}
-          color="primary"
-        >
-          {isSubmitting ? "Please Wait..." : "Submit"}
-        </Button>
+        <div className="mb-3 flex items-center justify-center gap-2">
+          <Button
+            isLoading={isSubmitting}
+            type="submit"
+            disabled={isSubmitting}
+            color="primary"
+          >
+            {isSubmitting ? "Please Wait..." : "Submit"}
+          </Button>
+        </div>
       </form>
-      <Image
-        src={"/forgotPass.png"}
-        alt="Forgot Password"
-        width={500}
-        height={500}
-        className="col-span-2 place-self-center"
-      />
+      <div className="mb-3 flex items-center justify-center gap-2">
+        <Image
+          src={"/forgotPass.png"}
+          alt="Forgot Password"
+          width={500}
+          height={500}
+          className="col-span-2 place-self-center"
+        />
+      </div>
     </div>
   );
 };

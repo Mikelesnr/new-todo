@@ -85,52 +85,54 @@ const SignUpForm = () => {
     }
   };
   return (
-    <form
-      onSubmit={handleSubmit(saveUser)}
-      className="grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md"
-    >
+    <form onSubmit={handleSubmit(saveUser)} className="max-w-sm mx-auto">
+      <div className="text-white bg-gradient-to-b from-white to-slate-200 dark:from-slate-700 dark:to-slate-900 p-2 text-center">
+        Sign up
+      </div>
       <Input
         errorMessage={errors.firstName?.message}
         isInvalid={!!errors.firstName}
         {...register("firstName")}
-        label="First Name"
-        startContent={<UserIcon className="w-4" />}
+        placeholder="First Name"
+        className="col-span-2 mb-3"
+        // startContent={<UserIcon className="w-4" />}
       />
       <Input
         errorMessage={errors.lastName?.message}
         isInvalid={!!errors.lastName}
         {...register("lastName")}
-        label="Last Name"
-        startContent={<UserIcon className="w-4" />}
+        placeholder="Last Name"
+        className="col-span-2 mb-3"
+        // startContent={<UserIcon className="w-4" />}
       />
       <Input
         errorMessage={errors.email?.message}
         isInvalid={!!errors.email}
         {...register("email")}
-        className="col-span-2"
-        label="Email"
-        startContent={<EnvelopeIcon className="w-4" />}
+        className="col-span-2 mb-3"
+        placeholder="Email"
+        // startContent={<EnvelopeIcon className="w-4" />}
       />{" "}
       <Input
         errorMessage={errors.phone?.message}
         isInvalid={!!errors.phone}
         {...register("phone")}
-        className="col-span-2"
-        label="Phone"
-        startContent={<PhoneIcon className="w-4" />}
+        className="col-span-2 mb-3"
+        placeholder="Phone"
+        // startContent={<PhoneIcon className="w-4" />}
       />{" "}
       <Input
         errorMessage={errors.password?.message}
         isInvalid={!!errors.password}
         {...register("password")}
-        className="col-span-2"
-        label="Password"
+        className="col-span-2 mb-3"
+        placeholder="Password"
         type={isVisiblePass ? "text" : "password"}
-        startContent={<KeyIcon className="w-4" />}
+        // startContent={<KeyIcon className="w-4" />}
         endContent={
           isVisiblePass ? (
             <EyeSlashIcon
-              className="w-4 cursor-pointer"
+              className="w-4 cursor-pointer mt-3"
               onClick={toggleVisblePass}
             />
           ) : (
@@ -141,15 +143,17 @@ const SignUpForm = () => {
           )
         }
       />
-      <PasswordStrength passStrength={passStrength} />
+      <div className="mb-3">
+        <PasswordStrength passStrength={passStrength} />
+      </div>
       <Input
         errorMessage={errors.confirmPassword?.message}
         isInvalid={!!errors.confirmPassword}
         {...register("confirmPassword")}
         className="col-span-2"
-        label="Confirm Password"
+        placeholder="Confirm Password"
         type={isVisiblePass ? "text" : "password"}
-        startContent={<KeyIcon className="w-4" />}
+        // startContent={<KeyIcon className="w-4" />}
       />
       <Controller
         control={control}
@@ -158,7 +162,7 @@ const SignUpForm = () => {
           <Checkbox
             onChange={field.onChange}
             onBlur={field.onBlur}
-            className="col-span-2"
+            className="col-span-2 mb-3"
           >
             I Accept The <Link href="/terms">Terms</Link>
           </Checkbox>
@@ -167,10 +171,14 @@ const SignUpForm = () => {
       {!!errors.accepted && (
         <p className="text-red-500">{errors.accepted.message}</p>
       )}
-      <div className="flex justify-center col-span-2">
+      <div className="flex justify-center col-span-2 mb-3">
         <Button className="w-48" color="primary" type="submit">
           Submit
         </Button>
+      </div>
+      <div className="md:col-span-2 flex justify-center items-center">
+        <h5 className="text-center p-2">Already Signed up?</h5>
+        <Link href={"/auth/signin"}>Sign In</Link>
       </div>
     </form>
   );

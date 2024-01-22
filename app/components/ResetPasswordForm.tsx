@@ -9,6 +9,7 @@ import { z } from "zod";
 import PasswordStrength from "./PasswordStrength";
 import { resetPassword } from "@/lib/actions/authActions";
 import { toast } from "react-toastify";
+import Appbar from "./Appbar";
 
 interface Props {
   jwtUserId: string;
@@ -57,44 +58,52 @@ const ResetPasswordForm = ({ jwtUserId }: Props) => {
     }
   };
   return (
-    <form
-      onSubmit={handleSubmit(resetPass)}
-      className="flex flex-col gap-2 p-2 m-2 border rounded-md shadow"
-    >
-      <div className="text-center p-2">Reset Your Password</div>
-      <Input
-        type={visiblePass ? "text" : "password"}
-        label="Password"
-        {...register("password")}
-        errorMessage={errors.password?.message}
-        endContent={
-          <button type="button" onClick={() => setVisiblePass((prev) => !prev)}>
-            {visiblePass ? (
-              <EyeSlashIcon className="w-4" />
-            ) : (
-              <EyeIcon className="w-4" />
-            )}
-          </button>
-        }
-      />
-      <PasswordStrength passStrength={passStrength} />
-      <Input
-        type={visiblePass ? "text" : "password"}
-        label="Confirm Password"
-        {...register("confirmPassword")}
-        errorMessage={errors.confirmPassword?.message}
-      />
-      <div className="flex justify-center">
-        <Button
-          isLoading={isSubmitting}
-          type="submit"
-          disabled={isSubmitting}
-          color="primary"
-        >
-          {isSubmitting ? "Please Wait..." : "Submit"}
-        </Button>
-      </div>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(resetPass)} className="max-w-sm mx-autow">
+        <div className="mb-3 text-white bg-gradient-to-b from-white to-slate-200 dark:from-slate-700 dark:to-slate-900 p-2 text-center">
+          Reset You Password
+        </div>
+        <Input
+          type={visiblePass ? "text" : "password"}
+          placeholder="Password"
+          className="col-2 mb-3"
+          {...register("password")}
+          errorMessage={errors.password?.message}
+          endContent={
+            <button
+              type="button"
+              onClick={() => setVisiblePass((prev) => !prev)}
+            >
+              {visiblePass ? (
+                <EyeSlashIcon className="w-4" />
+              ) : (
+                <EyeIcon className="w-4" />
+              )}
+            </button>
+          }
+        />
+        <div className="col-2 mb-3">
+          <PasswordStrength passStrength={passStrength} />
+        </div>
+        <Input
+          type={visiblePass ? "text" : "password"}
+          placeholder="Confirm Password"
+          className="col-2 mb-3"
+          {...register("confirmPassword")}
+          errorMessage={errors.confirmPassword?.message}
+        />
+        <div className="flex justify-center">
+          <Button
+            isLoading={isSubmitting}
+            type="submit"
+            disabled={isSubmitting}
+            color="primary"
+          >
+            {isSubmitting ? "Please Wait..." : "Submit"}
+          </Button>
+        </div>
+      </form>
+    </>
   );
 };
 

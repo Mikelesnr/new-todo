@@ -1,32 +1,122 @@
-import React, { useState } from "react";
+import React, { Component, Fragment } from "react";
 
-const Autocomplete = ({ options }) => {
-  const [input, setInput] = useState("");
-  const [filteredOptions, setFilteredOptions] = useState(options);
+class Autocomplete extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeSuggestion: 0,
+      filteredSuggestions: [],
+      showSuggestions: false,
+      userInput: "",
+    };
+  }
+  onChange = (e) => {
+    const { suggestions } = this.props;
+    const userInput = e.currentTarget.value;
 
-  const handleChange = (event) => {
-    const userInput = event.currentTarget.value;
-
-    // Filter our options that don't contain the user's input
-    const newFilteredOptions = options.filter(
-      (optionName) =>
-        optionName.toLowerCase().indexOf(userInput.toLowerCase()) > -1
+    const filteredSuggestions = suggestions.filter(
+      (suggestion) =>
+        suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
     );
 
-    setInput(userInput);
-    setFilteredOptions(newFilteredOptions);
+    this.setState({
+      activeSuggestion: 0,
+      filteredSuggestions,
+      showSuggestions: true,
+      userInput: e.currentTarget.value,
+    });
   };
 
-  return (
-    <div>
-      <input type="text" value={input} onChange={handleChange} />
-      <ul>
-        {filteredOptions.map((option, index) => (
-          <li key={index}>{option}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+  onClick = (e) => {
+    this.setState({
+      activeSuggestion: 0,
+      filteredSuggestions: [],
+      showSuggestions: false,
+      userInput: e.currentTarget.innerText,
+    });
+  };
+
+  onKeyDown = (e) => {
+    const { activeSuggestion, filteredSuggestions } = this.state;
+
+    if (e.keyCode === 13) {
+      this.setState({
+        activeSuggestion: 0,
+        showSuggestions: false,
+        userInput: filteredSuggestions[activeSuggestion],
+      });
+    } else if (e.keyCode === 38) {
+      if (activeSuggestion === 0) {
+        return;
+      }
+      this.setState({ activeSuggestion: activeSuggestion - 1 });
+    }
+    // User pressed the down arrow, increment the index
+    else if (e.keyCode === 40) {
+      if (activeSuggestion - 1 === filteredSuggestions.length) {
+        return;
+      }
+      this.setState({ activeSuggestion: activeSuggestion + 1 });
+    }
+  };
+
+  render() {
+    const {
+      onChange,
+      onClick,
+      onKeyDown,
+      state: {
+        activeSuggestion,
+        filteredSuggestions,
+        showSuggestions,
+        userInput,
+      },
+    } = this;
+
+    let suggestionsListComponent;
+
+    if (showSuggestions && userInput) {
+      if (filteredSuggestions.length) {
+        suggestionsListComponent = (
+          <ul class="suggestions">
+            {filteredSuggestions.map((suggestion, index) => {
+              let className;
+
+              // Flag the active suggestion with a class
+              if (index === activeSuggestion) {
+                className = "suggestion-active";
+              }
+              return (
+                <li className={className} key={suggestion} onClick={onClick}>
+                  {suggestion}
+                </li>
+              );
+            })}
+          </ul>
+        );
+      } else {
+        suggestionsListComponent = (
+          <div class="no-suggestions">
+            <em>No suggestions available.</em>
+          </div>
+        );
+      }
+    }
+
+    return (
+      <Fragment>
+        <input
+          id="search"
+          type="text"
+          placeholder="search inspector"
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          value={userInput}
+        />
+        {suggestionsListComponent}
+      </Fragment>
+    );
+  }
+}
 
 export default Autocomplete;
