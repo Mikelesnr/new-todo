@@ -1,3 +1,4 @@
+export const taskCreateTemplate = `
 <!DOCTYPE html>
 <html
   xmlns:v="urn:schemas-microsoft-com:vml"
@@ -487,7 +488,7 @@
                                       margin-bottom: 0;
                                     "
                                   >
-                                    Description {{description}}
+                                    Description: {{description}}
                                   </p>
                                 </td>
                               </tr>
@@ -1194,3 +1195,5 @@
     <!-- End -->
   </body>
 </html>
+
+`;

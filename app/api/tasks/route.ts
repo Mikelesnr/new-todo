@@ -2,7 +2,7 @@ import prisma from "@/app/utils/connect";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
-import { sendMail } from "@/lib/mail";
+import { sendMail, compileTaskCreateTemplate } from "@/lib/mail";
 import { writeFile } from "fs/promises";
 import splitString from "@/app/utils/splitString";
 
@@ -35,10 +35,11 @@ export async function POST(req: Request) {
     const assignedId = records[0].id;
     const email = records[0].email;
 
+    const body = compileTaskCreateTemplate(fName, title, description);
     await sendMail({
       to: email,
-      subject: title,
-      body: description,
+      subject: "New Task",
+      body: body,
       attachments: [],
     });
 

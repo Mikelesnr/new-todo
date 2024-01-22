@@ -79,6 +79,7 @@ export async function forgotPassword(email: string) {
     to: user.email,
     subject: "Reset Password",
     body: body,
+    attachments: [],
   });
   return sendResult;
 }
