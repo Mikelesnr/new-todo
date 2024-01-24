@@ -35,7 +35,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const userId = getId;
+  const userId: any = getId;
   return (
     <html lang="en">
       <head>

@@ -47,6 +47,7 @@ const FormSchema = z
         message: "Please accept all terms",
       }),
     }),
+    isAdmin: z.boolean().default(false),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Password and confirm password doesn't match!",

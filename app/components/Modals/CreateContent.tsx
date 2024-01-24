@@ -21,8 +21,8 @@ function CreateContent() {
   const getInspectors = async () => {
     const results = await fetch("/api/users");
     const data = await results.json();
-    const users = [];
-    data.map((user) => {
+    const users: any = [];
+    data.map((user: any) => {
       users.push(`${user.firstName} ${user.lastName}`);
     });
     setInspectors(users);
@@ -62,7 +62,7 @@ function CreateContent() {
     }
     console.log(assigned);
   };
-  const handleValueChange = (value) => {
+  const handleValueChange = (value: any) => {
     setAssigned(value); // Set the assigned state here
   };
 
